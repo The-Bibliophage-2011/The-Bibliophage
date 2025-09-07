@@ -1,12 +1,12 @@
-name: Deploy Quartz Site
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main  # deploy when you push to main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,12 +20,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Quartz site
-        run: npx quartz build
+      - name: Build site
+        run: npm run build  # or your build command; for static site, you can skip this
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v6
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./dist  # replace with your folder, e.g., './' or './public'
+
 
